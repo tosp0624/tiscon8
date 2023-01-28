@@ -16,6 +16,8 @@ public class Customer implements Serializable {
 
     private String email;
 
+    private String date;
+
     private String oldAddress;
 
     private String newAddress;
@@ -66,6 +68,15 @@ public class Customer implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getOldAddress() {
