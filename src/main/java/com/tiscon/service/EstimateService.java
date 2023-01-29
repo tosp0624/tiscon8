@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -70,7 +71,11 @@ public class EstimateService {
      * @return 概算見積もり結果の料金
      */
     public Integer getPrice(UserOrderDto dto) {
-        double distance = estimateDAO.getDistance(dto.getOldPrefectureId(), dto.getNewPrefectureId());
+        double distance;
+        if(dto.getOldPrefectureId().equals(dto.getNewPrefectureId())){
+            distance = 50;
+        } else { distance = estimateDAO.getDistance(dto.getOldPrefectureId(), dto.getNewPrefectureId());
+        }
         // 小数点以下を切り捨てる
         int distanceInt = (int) Math.floor(distance);
 
@@ -82,24 +87,38 @@ public class EstimateService {
                 + getBoxForPackage(dto.getBicycle(), PackageType.BICYCLE)
                 + getBoxForPackage(dto.getWashingMachine(), PackageType.WASHING_MACHINE);
 
+
+        int priceExtraBox = 0;
+        if(boxes>200){
+            int extrabox = boxes-200;
+            priceExtraBox = extrabox*300; //余剰段ボール数×300
+            boxes = 200;
+        }
+        
         // 箱に応じてトラックの種類が変わり、それに応じて料金が変わるためトラック料金を算出する。
         int pricePerTruck = estimateDAO.getPricePerTruck(boxes);
+  
 
         // オプションサービスの料金を算出する。
         int priceForOptionalService = 0;
-
+    
         if (dto.getWashingMachineInstallation()) {
             priceForOptionalService = estimateDAO.getPricePerOptionalService(OptionalServiceType.WASHING_MACHINE.getCode());
         }
         
         // 引っ越し月に応じて係数を決める
-        if (dto.getDate()){
-            double n = 1.5;
+        double n = 1.0;
+        int month = Integer.parseInt(String.valueOf(dto.getDate().charAt(6)));
+       
+        if((month == 3)||(month == 4)){
+            n = 1.5 ;    
+        }else if (month == 9){
+            n = 1.2 ;   
         }
-        
-        
+
+     
         // 小数点以下を切り捨てる
-        int totalprice = (int) Math.floor((priceForDistance + pricePerTruck)*n + priceForOptionalService);
+        int totalprice = (int) Math.floor((priceForDistance + pricePerTruck + priceExtraBox)*n + priceForOptionalService);
 
         return totalprice;
     }
