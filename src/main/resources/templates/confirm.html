@@ -25,11 +25,12 @@
       入力内容をご確認ください。<br/>
       この内容でお見積りする場合は、「概算お見積もりをする」ボタンを押してください。
     </div>
-    <ul th:if="${#fields.hasErrors('all')}">
-      <li th:each="err : ${#fields.errors('all')}" th:text="${err}"></li>
-    </ul>
+  
     <div class="col-sm-12">
       <div class="sub-title">お客様情報</div>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{customerName}')}" >氏名の<span th:errors="*{customerName}"/></label>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{tel}')}" >連絡先TELの<span th:errors="*{tel}"/></label>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{email}')}" >連絡先のメールアドレスの<span th:errors="*{email}"/></label>
       <table class="table table-bordered">
         <col span="1" style="background-color: #FFFFFF;">
         <col span="2" style="background-color: #FFFFFF;">
@@ -56,6 +57,7 @@
     </div>
     <div class="col-sm-12">
       <div class="sub-title">引っ越し予定日</div>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{date}')}" >引っ越し予定日の<span th:errors="*{date}"/></label>
       <table class="table table-bordered">
         <col span="1" style="background-color: #FFFFFF;">
         <col span="2" style="background-color: #FFFFFF;">
@@ -72,6 +74,8 @@
   </div>
     <div class="col-sm-12">
       <div class="sub-title">集荷元・お届け先</div>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{oldAddress}')}" >集荷元住所の<span th:errors="*{oldAddress}"/></label>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{newAddress}')}" >お届け先住所の<span th:errors="*{newAddress}"/></label>
       <table class="table table-bordered">
         <col span="1" style="background-color: #FFFFFF;">
         <col span="2" style="background-color: #FFFFFF;">
@@ -105,6 +109,10 @@
     </div>
     <div class="col-sm-12">
       <div class="sub-title">お荷物情報</div>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{box}')}" >段ボールの個数の<span th:errors="*{box}"/></label>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{bed}')}" >ベッドの個数の<span th:errors="*{bed}"/></label>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{bicycle}')}" >自転車の個数の<span th:errors="*{bicycle}"/></label>
+      <span th:text="*{tel}"></span><label th:if="${#fields.hasErrors('*{washingMachine}')}" >洗濯機の個数の<span th:errors="*{washingMachine}"/></label>
         <table class="table table-bordered">
           <col span="1" style="background-color: #FFFFFF;">
           <col span="2" style="background-color: #FFFFFF;">
